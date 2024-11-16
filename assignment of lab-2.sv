@@ -91,20 +91,20 @@ module test();
 		c=(a*b)+2;
 		a++;
 		$display("inside fun t=%t,a=%d,b=%d,c=%d",$time,a,b,c);
-		// t=1 a=3 b=3 c=8
-		// t=2 a=3 b=3 c=8
+		// t=6 a=3 b=3 c=8
+		// t=7 a=3 b=3 c=8
 	endtask
 	initial 
 		fork 
 			begin 
 			#1;
 			mult(a,b,d);
-			$display("outside fun t=%t,a=%d,b=%d,d=%d",$time,a,b,d); // t=1 a=2 b=3 c=17
+			$display("outside fun t=%t,a=%d,b=%d,d=%d",$time,a,b,d); // t=6 a=2 b=3 c=8
 			end
 			begin 
 			#2;
 			mult(a,b,d);
-			$display("outside fun t=%t,a=%d,b=%d,d=%d",$time,a,b,d); // t=2 a=2 b=3 c=8
+			$display("outside fun t=%t,a=%d,b=%d,d=%d",$time,a,b,d); // t=7 a=2 b=3 c=8
 			end
 			
 		join
@@ -119,20 +119,20 @@ module test();
 		c=(a*b)+2;
 		a++;
 		$display("inside fun t=%t,a=%d,b=%d,c=%d",$time,a,b,c);
-		// t=1 a= b=3 c=17
-		// t=2 a=3 b=3 c=8
+		// t=1 a=3 b=3 c=8
+		// t=2 a=3 b=4 c=10
 	endfunction
 	initial 
 		fork 
 			begin 
 			#1;
 			mult(2,3,d);
-			$display("outside fun t=%t,a=%d,b=%d,d=%d",$time,a,b,d); // t=1 a=2 b=3 c=17
+			$display("outside fun t=%t,a=%d,b=%d,d=%d",$time,a,b,d); // t=1 a=2 b=3 c=8
 			end
 			begin 
 			#2;
 			mult(2,4,d);
-			$display("outside fun t=%t,a=%d,b=%d,d=%d",$time,a,b,d); // t=2 a=2 b=3 c=8
+			$display("outside fun t=%t,a=%d,b=%d,d=%d",$time,a,b,d); // t=2 a=2 b=3 c=10
 			end
 			
 		join
@@ -144,14 +144,14 @@ class pass_by_ref;
 	int refr=2;
 	int val=2;
 	function automatic int check_refer(ref int r);
-		$display("initial value of refr=%d",r);
+		$display("initial value of refr=%d",r);  //2
 		r++;
-		$display("value of refr after incrementing %d",r);
+		$display("value of refr after incrementing %d",r);  //3
 	endfunction
 	function int check_val(int v);
-		$display("initial value of val %d",v);
+		$display("initial value of val %d",v); //2
 		v++;
-		$display("value of val after incrementing %d",v);
+		$display("value of val after incrementing %d",v);  //3
 	endfunction
 endclass
 pass_by_ref h1;
@@ -161,8 +161,8 @@ module test;
 			h1=new();
 			h1.check_refer(h1.refr);
 			h1.check_val(h1.val);
-			$display("value of refr after incrementing%d",h1.refr);
-			$display("value of val after incrementing %d",h1.val);
+			$display("value of refr after incrementing%d",h1.refr);  //3
+			$display("value of val after incrementing %d",h1.val);  //2
 		end
 endmodule
 */
@@ -193,4 +193,8 @@ module test();
 			end
 		join
 endmodule
+*/
+/* results of snippet-7 
+    t=7 call_1
+	t=11 call_1
 */
