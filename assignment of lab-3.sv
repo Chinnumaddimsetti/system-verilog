@@ -273,7 +273,8 @@ endclass
 class ex extends trans;
 	int i;
 	function new(int i);
-		this,i=i;
+		super.new=i;
+      	this.i=i;
 	endfunction
 endclass
 ex h1;
@@ -559,7 +560,7 @@ module test();
 		begin 
 		repeat(2)
 		begin 
-			AB a2=new();
+			AB a2=new();  // static 
 			a1=new();
 			a1.i++;
 			a2.i++;
