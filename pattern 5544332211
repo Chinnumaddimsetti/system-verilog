@@ -1,0 +1,25 @@
+class pattern;
+	rand int da[];
+	constraint c1{da.size==10;}
+	constraint c2{da[0]==5;}
+	constraint c3{foreach (da[i])
+					if(i%2==0)
+					da[i]==da[i+1];
+					else if(i%2!=0 && i<(da.size-1))
+					da[i+1]==da[i]-1;
+					}
+	function void post_randomize();
+		$display("the result of da: %p",da);
+	endfunction 
+endclass
+module tb_pattern;
+    pattern p; 
+    initial begin
+        p = new(); 
+        if (p.randomize()) begin 
+            p.post_randomize();
+        end else begin
+            $display("Randomization failed!");
+        end
+    end
+endmodule
