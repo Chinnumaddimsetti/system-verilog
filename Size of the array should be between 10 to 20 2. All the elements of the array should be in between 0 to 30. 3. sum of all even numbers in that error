@@ -1,0 +1,36 @@
+/*    1.Size of the array should be between 10 to 20 2. All the elements of the array should be in between 0 to 30. 3. sum of all even numbers in that error                                                   */
+class pattern;
+  rand int da[];
+  int sum;
+
+  // Constraints
+  constraint c1 { da.size() inside {[10:20]}; }
+  constraint c2 { foreach (da[i]) da[i] inside {[0:30]}; }
+
+  // Post-randomization function
+  function void post_randomize();
+    $display("Array size: %d", da.size());
+    $display("Array content: %p", da);
+
+    // Calculate the sum of even numbers in the array
+    sum = 0;
+    foreach (da[i]) begin
+      if (da[i] % 2 == 0) sum += da[i];
+    end
+
+    $display("Sum of even numbers: %d", sum);
+  endfunction
+endclass
+
+module top;
+  pattern p;
+
+  initial begin
+    p = new();
+    if (p.randomize()) begin
+      p.post_randomize();
+    end else begin
+      $display("Randomization failed!");
+    end
+  end
+endmodule
