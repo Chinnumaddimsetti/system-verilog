@@ -1,0 +1,26 @@
+class pattern;
+rand int array[];
+constraint c1{array.size inside {[15:20]};}
+constraint value{foreach (array[i])
+					if (i%2==0)
+					{array[i] inside {1,3,5,7,9};}
+					else
+					{array[i] inside {0,2,4,6,8};}}
+function void post_randomize();
+	$display("array %p:",array);
+endfunction
+endclass
+module top;
+	pattern p;
+	initial
+		begin 
+		p=new();
+		if(p.randomize())begin 
+			p.post_randomize();
+		end 
+		else 
+			begin 
+			$display("err");
+			end 
+		end 
+endmodule
